@@ -5,10 +5,10 @@ const view = {
         [10, 80, 151, 220], [81, 150, 151, 220], [151, 220, 151, 220]
     ],
     textPositions: [
-        [25, 60], [], [],
-        [], [], [],
-        [], [], []
-    ]
+        [25, 60], [90, 60], [160, 60],
+        [25, 140], [90, 140], [160, 140],
+        [25, 210], [90, 210], [160, 210]
+    ],
 }
 
 function draw() {
@@ -62,13 +62,13 @@ function clicked(evt) {
     let y = evt.clientY - canvas.offsetTop;
 
     console.clear();
-    console.log("Posição do clique: x: ", x + ", y: " + y);
+    console.log("Posição do clique: x:", x + ", y:" + y);
 
     for (let i = 0; i < view.positions.length; i++) {
         const p = view.positions[i];
         if (x > p[0] && x < p[1] && y > p[2] && y < p[3]) {
             let cell = i + 1;
-            console.log("Clicou na célula " + cell + "!");
+            console.log("Clicou na célula " + (i+1) + "!");
         }
     }
 
