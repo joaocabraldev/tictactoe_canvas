@@ -15,7 +15,7 @@ const view = {
         [10, 80, 81, 150], [81, 150, 81, 150], [151, 220, 81, 150],
         [10, 80, 151, 220], [81, 150, 151, 220], [151, 220, 151, 220]
     ],
-    textPositions: [
+    text_positions: [
         [25, 60], [90, 60], [160, 60],
         [25, 140], [90, 140], [160, 140],
         [25, 210], [90, 210], [160, 210]
@@ -63,8 +63,10 @@ const view = {
     },
 
     write_cell(cell) {
-        view.context.fillText('X', cell[0], cell[1]);
-        console.log('Wrote cell');
+        let pos = cell - 1;
+        let x = this.text_positions[pos][0];
+        let y = this.text_positions[pos][1];
+        this.context.fillText('X', x, y);
     }
 }
 
