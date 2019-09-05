@@ -3,13 +3,23 @@
 	<head>
 		<title>Tic Tac Toe</title>
 		<meta charset="UTF-8" />
+        <link rel="shortcut icon" href="favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
-		<script src="js/game.js"></script>
 	</head>
-	<body onload="view.init();">
-		<h2>Tic Tac Toe Canvas</h2>
-		<canvas id="canvas" width="400" height="400">
-			Não suporta canvas
-		</canvas>
+	<body>
+        <main>
+            <h2>Tic Tac Toe Canvas</h2>
+            <h3>Jogador: <span id="player">X</span></h3>
+            <canvas id="canvas" width="230" height="230">
+                Não suporta canvas
+            </canvas>
+            <footer>
+                <button id="reset">Reset</button>
+            </footer>
+        </main>
 	</body>
+    <script src="js/game.js"></script>
+    <script>
+        view.init();
+    </script>
 </html>
