@@ -41,6 +41,7 @@ const view = {
         this.context = this.canvas.getContext('2d');
         this.context.font = '48px serif';
         this.draw_board();
+        game.init();
         this.show_player();
     },
 
@@ -67,8 +68,11 @@ const view = {
             view.context.fillText(view.options[view.turn], cell[0], cell[1]);
             
             view.fill_board(cell);
+            game.fill_board(cell);
             view.check_winner(view.options[view.turn]);
+            game.check_winner();
             view.change_player();
+            game.change_player();
         }
     },
 
@@ -159,4 +163,51 @@ const view = {
         this.write_cell(b_index + 1);
         this.write_cell(c_index + 1);
     }
+}
+
+const game = {
+    options: ['X', 'O'],
+    turn: 0,
+    board: ['','','','','','','','',''],
+	winning_sequences: [
+		[0,1,2], [3,4,5], [6,7,8],
+		[0,3,6], [1,4,7], [2,5,8],
+		[0,4,8], [2,4,6]
+	],
+    game_over: false,
+    game_winner: 'N',
+    
+    init() {
+        this.board = ['','','','','','','','',''];
+        this.game_over = false;
+        this.game_winner = 'N';
+    },
+
+    fill_board(index) {
+        this.board[index-1] = this.options[this.turn];
+        console.log('Game Board: ');
+        console.log(this.board);
+    },
+
+    change_player() {
+        this.turn = (this.turn === 0 ? 1 : 0);
+    },
+
+    check_winner() {
+        let symbol = this.options[this.turn];
+        if (!this.board.includes('')) {
+            this.game_over = true;
+            this.game_winner = 'D';
+        }
+
+		for (i in this.winning_sequences) {
+			if(this.board[this.winning_sequences[i][0]] == symbol &&
+				this.board[this.winning_sequences[i][1]] == symbol &&
+				this.board[this.winning_sequences[i][2]] == symbol) {
+				
+				this.game_over = true;
+                this.game_winner = symbol;
+			}
+        }
+    },
 }
