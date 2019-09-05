@@ -35,12 +35,13 @@ const view = {
         this.canvas = document.getElementById('canvas');
         this.canvas.addEventListener('click', this.draw_play, true);
         
-        this.btn_reset = document.getElementById('reset');
-        //this.canvas.addEventListener('click', this.reset_board, true);
+        this.btn_reset = document.getElementById('btn_reset');
+        this.btn_reset.addEventListener('click', this.reset_board, true);
         
         this.context = this.canvas.getContext('2d');
         this.context.font = '48px serif';
         this.draw_board();
+        this.show_player();
     },
 
     draw_board() {
@@ -70,6 +71,12 @@ const view = {
             view.change_player();
         }
     },
+
+    reset_board() {
+        console.log('Reset Canvas');
+        view.context.clearRect(0,0, 230, 230);
+        view.draw_board();
+    }, 
     
     check_cell(x, y) {
         for (let i = 0; i < this.areas.length; i++) {
@@ -94,7 +101,13 @@ const view = {
     
     change_player() {
         this.turn = (this.turn === 0 ? 1 : 0);
+        this.show_player();
     },
+
+    show_player() {
+		let player = document.getElementById('player');
+		player.innerHTML = this.options[this.turn];
+	},
     
     check_winner(symbol) {
         if (!this.board.includes('')) {
@@ -121,13 +134,29 @@ const view = {
         let b_index = this.winning_sequences[index][1];
         let c_index = this.winning_sequences[index][2];
         
-        /*
-        TODO: Learn how to fill rectangles or redraw them.
-        let elements = document.querySelectorAll('.cell');
+        let h = this.dimensions.height;
+        let w = this.dimensions.width;
 
-        elements[a_index].classList.add('winner');
-        elements[b_index].classList.add('winner');
-        elements[c_index].classList.add('winner');
-        */
+        this.context.fillStyle = 'lightgreen';
+        this.context.rectStyle = 'black';
+        const pos_a = this.positions[a_index];
+        this.context.fillRect(pos_a[0], pos_a[1], w, h);
+        this.context.strokeRect(pos_a[0], pos_a[1], w, h);
+        this.context.strokeRect(pos_a[0], pos_a[1], w, h);
+        
+        const pos_b = this.positions[b_index];
+        this.context.fillRect(pos_b[0], pos_b[1], w, h);
+        this.context.strokeRect(pos_b[0], pos_b[1], w, h);
+        this.context.strokeRect(pos_b[0], pos_b[1], w, h);
+
+        const pos_c = this.positions[c_index];
+        this.context.fillRect(pos_c[0], pos_c[1], w, h);
+        this.context.strokeRect(pos_c[0], pos_c[1], w, h);
+        this.context.strokeRect(pos_c[0], pos_c[1], w, h);
+
+        this.context.fillStyle = 'black';
+        this.write_cell(a_index + 1);
+        this.write_cell(b_index + 1);
+        this.write_cell(c_index + 1);
     }
 }
