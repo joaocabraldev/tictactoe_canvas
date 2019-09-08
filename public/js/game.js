@@ -67,17 +67,21 @@ const view = {
             view.write_cell(cell);
             view.context.fillText(view.options[view.turn], cell[0], cell[1]);
             
-            view.fill_board(cell);
             game.fill_board(cell);
-            view.check_winner(view.options[view.turn]);
             game.check_winner();
-            view.change_player();
-            game.change_player();
+
+            if (game.game_winner == 'N') {
+                game.change_player();
+                view.show_player();
+            } else {
+                view.fill_winner();
+            }
         }
     },
 
     reset_board() {
         console.log('Reset Canvas');
+        game.init();
         view.context.clearRect(0,0, 230, 230);
         view.draw_board();
     }, 
@@ -95,12 +99,12 @@ const view = {
         let pos = cell - 1;
         let x = this.text_positions[pos][0];
         let y = this.text_positions[pos][1];
-        this.context.fillText(this.options[this.turn], x, y);
+        this.context.fillText(game.options[game.turn], x, y);
     },
     
     fill_board(index) {
-        this.board[index-1] = this.options[this.turn];
-        console.log(this.board);
+        game.board[index-1] = game.options[game.turn];
+        console.log(game.board);
     },
     
     change_player() {
@@ -110,33 +114,14 @@ const view = {
 
     show_player() {
 		let player = document.getElementById('player');
-		player.innerHTML = this.options[this.turn];
+		player.innerHTML = game.options[game.turn];
 	},
     
-    check_winner(symbol) {
-        if (!this.board.includes('')) {
-            this.game_over = true;
-            console.log('It is a draw!');
-        }
-
-		for (i in this.winning_sequences) {
-			if(this.board[this.winning_sequences[i][0]] == symbol &&
-				this.board[this.winning_sequences[i][1]] == symbol &&
-				this.board[this.winning_sequences[i][2]] == symbol) {
-				
-				this.game_over = true;
-                this.fill_winner(i);
-				console.log(this.winning_sequences[i]);
-                console.log('Player ' + symbol +  ' won!');
-			
-			}
-		}
-    },
-    
-    fill_winner(index) {
-        let a_index = this.winning_sequences[index][0];
-        let b_index = this.winning_sequences[index][1];
-        let c_index = this.winning_sequences[index][2];
+    fill_winner() {
+        let index = game.winner_index;
+        let a_index = game.winning_sequences[index][0];
+        let b_index = game.winning_sequences[index][1];
+        let c_index = game.winning_sequences[index][2];
         
         let h = this.dimensions.height;
         let w = this.dimensions.width;
@@ -176,6 +161,7 @@ const game = {
 	],
     game_over: false,
     game_winner: 'N',
+    winner_index: -1,
     
     init() {
         this.board = ['','','','','','','','',''];
@@ -207,6 +193,7 @@ const game = {
 				
 				this.game_over = true;
                 this.game_winner = symbol;
+                this.winner_index = i;
 			}
         }
     },
