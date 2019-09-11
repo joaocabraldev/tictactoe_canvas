@@ -5,7 +5,7 @@ const view = {
         height: 70,
         width: 70
     },
-    cells: [
+    positions: [
         [10, 10], [80, 10], [150, 10],
         [10, 80], [80, 80], [150, 80],
         [10, 150], [80, 150], [150, 150]
@@ -144,5 +144,3 @@ const view = {
         this.write_cell(c_index + 1);
     }
 }
-
-module.exports = view;

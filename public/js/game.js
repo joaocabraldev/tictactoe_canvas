@@ -29,10 +29,6 @@ const game = {
 
     check_winner() {
         let symbol = this.options[this.turn];
-        if (!this.board.includes('')) {
-            this.game_over = true;
-            this.game_winner = 'D';
-        }
 
 		for (i in this.winning_sequences) {
 			if(this.board[this.winning_sequences[i][0]] == symbol &&
@@ -42,7 +38,15 @@ const game = {
 				this.game_over = true;
                 this.game_winner = symbol;
                 this.winner_index = i;
+                return;
 			}
+        }
+        
+        if (!this.board.includes('')) {
+            this.game_over = true;
+            this.game_winner = 'D';
         }
     }
 }
+
+module.exports = game;
